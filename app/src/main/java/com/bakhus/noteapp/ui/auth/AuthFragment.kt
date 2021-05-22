@@ -69,6 +69,7 @@ class AuthFragment() : Fragment(R.layout.fragment_auth) {
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.authFragment, true)
             .build()
+
         findNavController().navigate(
             AuthFragmentDirections.actionAuthFragmentToNotesFragment(),
             navOptions
