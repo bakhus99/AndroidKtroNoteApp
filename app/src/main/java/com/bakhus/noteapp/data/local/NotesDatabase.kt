@@ -10,9 +10,10 @@ import com.bakhus.noteapp.data.local.entites.Note
     entities = [Note::class],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class NotesDatabase : RoomDatabase() {
 
-    @TypeConverters(Converters::class)
+
     abstract fun noteDao(): NoteDao
 
 }
