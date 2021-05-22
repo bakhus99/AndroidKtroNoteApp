@@ -16,12 +16,14 @@ import com.bakhus.noteapp.data.remote.BasicAuthInterceptor
 import com.bakhus.noteapp.databinding.FragmentAuthBinding
 import com.bakhus.noteapp.utils.Constants.KEY_LOGGED_IN_EMAIL
 import com.bakhus.noteapp.utils.Constants.KEY_PASSWORD
+import com.bakhus.noteapp.utils.Constants.NO_EMAIL
+import com.bakhus.noteapp.utils.Constants.NO_PASSWORD
 import com.bakhus.noteapp.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AuthFragment() : Fragment(R.layout.fragment_auth) {
+class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private val viewModel: AuthViewModel by viewModels()
     private val binding: FragmentAuthBinding by viewBinding()
@@ -37,6 +39,11 @@ class AuthFragment() : Fragment(R.layout.fragment_auth) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (isLoggedIn()) {
+            authenticateApi(curEmail ?: "", curPassword ?: "")
+            redirectLogin()
+        }
 
         requireActivity().requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
 
@@ -59,11 +66,17 @@ class AuthFragment() : Fragment(R.layout.fragment_auth) {
 
     }
 
+    private fun isLoggedIn(): Boolean {
+        curEmail = sharedPref.getString(KEY_LOGGED_IN_EMAIL, NO_EMAIL) ?: NO_EMAIL
+        curPassword = sharedPref.getString(KEY_PASSWORD, NO_PASSWORD) ?: NO_PASSWORD
+        return curEmail != NO_EMAIL && curPassword != NO_PASSWORD
+    }
+
     private fun authenticateApi(email: String, password: String) {
         basicAuthInterceptor.email = email
         basicAuthInterceptor.password = password
-
     }
+
 
     private fun redirectLogin() {
         val navOptions = NavOptions.Builder()
