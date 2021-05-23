@@ -2,9 +2,11 @@ package com.bakhus.noteapp.repository
 
 import android.app.Application
 import com.bakhus.noteapp.data.local.NoteDao
+import com.bakhus.noteapp.data.local.entites.LocallyDeletedNoteID
 import com.bakhus.noteapp.data.local.entites.Note
 import com.bakhus.noteapp.data.remote.NoteApi
 import com.bakhus.noteapp.data.remote.requests.AccountRequest
+import com.bakhus.noteapp.data.remote.requests.DeleteNoteRequest
 import com.bakhus.noteapp.utils.Resource
 import com.bakhus.noteapp.utils.checkForInternetConnection
 import com.bakhus.noteapp.utils.networkBoundResource
@@ -19,6 +21,43 @@ class NoteRepository @Inject constructor(
     private val context: Application
 ) {
 
+    suspend fun insertNote(note: Note) {
+        val response = try {
+            api.addNote(note)
+        } catch (e: Exception) {
+            null
+        }
+        if (response != null && response.isSuccessful) {
+            noteDao.insertNote(note.apply { isSync = true })
+        } else {
+            noteDao.insertNote(note)
+        }
+    }
+
+    suspend fun insertNotes(notes: List<Note>) {
+        notes.forEach { insertNote(it) }
+    }
+
+    suspend fun deleteNote(noteID: String) {
+        val response = try {
+            api.deleteNoteRequest(DeleteNoteRequest(noteID))
+        } catch (e: Exception) {
+            null
+        }
+        noteDao.deleteNoteById(noteID)
+        if (response == null || !response.isSuccessful) {
+            noteDao.insertLocallyDeletedNoteID(LocallyDeletedNoteID(noteID))
+        } else {
+            deleteLocallyNoteID(noteID)
+        }
+    }
+
+    suspend fun deleteLocallyNoteID(deletedNoteID: String) {
+        noteDao.deleteLocallyDeletedNoteID(deletedNoteID)
+    }
+
+    suspend fun getNoteById(noteID: String) = noteDao.getNoteById(noteID)
+
     fun getAllNotes(): Flow<Resource<List<Note>>> {
         return networkBoundResource(
             query = {
@@ -29,7 +68,7 @@ class NoteRepository @Inject constructor(
             },
             saveFetchResult = { response ->
                 response.body()?.let {
-                    //TODO: insert notes in db
+                    insertNotes(it)
                 }
 
             },
