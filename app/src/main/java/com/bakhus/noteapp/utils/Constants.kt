@@ -12,4 +12,5 @@ object Constants {
     const val NO_PASSWORD = "NO_PASSWORD"
     const val DEFAULT_NOTE_COLOR = "FFA500"
     const val FRAGMENT_TAG = "ADD_EDIT_NOTE_FRAGMENT"
+    const val ADD_OWNER_DIALOG_TAG = "ADD_OWNER_DIALOG_TAG"
 }

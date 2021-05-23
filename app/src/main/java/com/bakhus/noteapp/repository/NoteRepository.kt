@@ -6,6 +6,7 @@ import com.bakhus.noteapp.data.local.entites.LocallyDeletedNoteID
 import com.bakhus.noteapp.data.local.entites.Note
 import com.bakhus.noteapp.data.remote.NoteApi
 import com.bakhus.noteapp.data.remote.requests.AccountRequest
+import com.bakhus.noteapp.data.remote.requests.AddOwnerRequest
 import com.bakhus.noteapp.data.remote.requests.DeleteNoteRequest
 import com.bakhus.noteapp.utils.Resource
 import com.bakhus.noteapp.utils.checkForInternetConnection
@@ -103,6 +104,18 @@ class NoteRepository @Inject constructor(
         )
     }
 
+    suspend fun addOwnerToNote(owner: String, noteID: String) = withContext(Dispatchers.IO) {
+        try {
+            val response = api.addOwnerToNote(AddOwnerRequest(owner, noteID))
+            if (response.isSuccessful && response.body()!!.successful) {
+                Resource.success(response.body()?.message)
+            } else {
+                Resource.error(response.body()?.message ?: response.message(), null)
+            }
+        } catch (e: Exception) {
+            Resource.error("Couldn't connect to the servers.Check your internet connection", null)
+        }
+    }
 
     suspend fun login(email: String, password: String) = withContext(Dispatchers.IO) {
         try {
