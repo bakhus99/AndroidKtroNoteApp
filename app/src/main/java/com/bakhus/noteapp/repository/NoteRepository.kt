@@ -53,6 +53,8 @@ class NoteRepository @Inject constructor(
         }
     }
 
+    fun observeNoteByID(noteID: String) = noteDao.observeNoteById(noteID)
+
     suspend fun deleteLocallyNoteID(deletedNoteID: String) {
         noteDao.deleteLocallyDeletedNoteID(deletedNoteID)
     }
