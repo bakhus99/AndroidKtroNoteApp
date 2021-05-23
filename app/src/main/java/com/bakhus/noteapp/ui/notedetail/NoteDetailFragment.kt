@@ -1,7 +1,7 @@
 package com.bakhus.noteapp.ui.notedetail
 
 import android.os.Bundle
-import android.view.View
+import android.view.*
 import android.viewbinding.library.fragment.viewBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -11,6 +11,9 @@ import com.bakhus.noteapp.R
 import com.bakhus.noteapp.data.local.entites.Note
 import com.bakhus.noteapp.databinding.FragmentNoteDetailBinding
 import com.bakhus.noteapp.ui.BaseFragment
+import com.bakhus.noteapp.ui.dialog.AddOwnerDialogFragment
+import com.bakhus.noteapp.utils.Constants.ADD_OWNER_DIALOG_TAG
+import com.bakhus.noteapp.utils.Status
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
@@ -24,6 +27,15 @@ class NoteDetailFragment() : BaseFragment(R.layout.fragment_note_detail) {
 
     private var currentNote: Note? = null
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeToObservers()
@@ -31,6 +43,28 @@ class NoteDetailFragment() : BaseFragment(R.layout.fragment_note_detail) {
             val action =
                 NoteDetailFragmentDirections.actionNoteDetailFragmentToAddEditNoteFragment(args.id)
             findNavController().navigate(action)
+        }
+
+        if (savedInstanceState != null) {
+            val addOwnerDialog = parentFragmentManager.findFragmentByTag(ADD_OWNER_DIALOG_TAG)
+                    as AddOwnerDialogFragment?
+            addOwnerDialog?.setPositiveListener {
+                addOwnerToCurrentNote(it)
+            }
+        }
+    }
+
+    private fun showAddOwnerDialog() {
+        AddOwnerDialogFragment().apply {
+            setPositiveListener {
+                addOwnerToCurrentNote(it)
+            }
+        }.show(parentFragmentManager, ADD_OWNER_DIALOG_TAG)
+    }
+
+    private fun addOwnerToCurrentNote(email: String) {
+        currentNote?.let { note ->
+            viewModel.addOwnerToNote(email, noteID = note.id)
         }
     }
 
@@ -42,6 +76,34 @@ class NoteDetailFragment() : BaseFragment(R.layout.fragment_note_detail) {
     }
 
     private fun subscribeToObservers() {
+        viewModel.addOwnerStatus.observe(viewLifecycleOwner, Observer { event ->
+            event?.getContentIfNotHandled()?.let { result ->
+                when (result.status) {
+                    Status.SUCCESS -> {
+                        binding.addOwnerProgressBar.visibility = View.GONE
+                        Snackbar.make(
+                            requireView(),
+                            result.data ?: "Successfully added owner to note",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    Status.ERROR -> {
+                        binding.addOwnerProgressBar.visibility = View.GONE
+                        Snackbar.make(
+                            requireView(),
+                            result.message ?: "An unkown error occured",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+
+                    }
+                    Status.LOADING -> {
+                        binding.addOwnerProgressBar.visibility = View.VISIBLE
+                    }
+                }
+
+            }
+
+        })
         viewModel.observeNoteByID(args.id).observe(viewLifecycleOwner, Observer {
             it?.let { note ->
                 binding.tvNoteTitle.text = note.title
@@ -51,5 +113,19 @@ class NoteDetailFragment() : BaseFragment(R.layout.fragment_note_detail) {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.note_deatil_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.miAddOwner -> {
+                showAddOwnerDialog()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+
+    }
 
 }
