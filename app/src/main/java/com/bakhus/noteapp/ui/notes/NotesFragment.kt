@@ -58,6 +58,7 @@ class NotesFragment() : BaseFragment(R.layout.fragment_notes) {
         requireActivity().requestedOrientation = SCREEN_ORIENTATION_USER
         setupRecyclerView()
         subscribeToObservers()
+        setupSwipeRefreshLayout()
         noteAdapter.setOnItemClickListener {
             val acton = NotesFragmentDirections.actionNotesFragmentToNoteDetailFragment(it.id)
             findNavController().navigate(acton)
@@ -146,6 +147,14 @@ class NotesFragment() : BaseFragment(R.layout.fragment_notes) {
                 }
         }
     }
+
+
+    private fun setupSwipeRefreshLayout() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.syncAllNotes()
+        }
+    }
+
 
     private fun setupRecyclerView() = binding.rvNotes.apply {
 
