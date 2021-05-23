@@ -13,6 +13,7 @@ import com.bakhus.noteapp.utils.networkBoundResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import javax.inject.Inject
 
 class NoteRepository @Inject constructor(
@@ -58,17 +59,39 @@ class NoteRepository @Inject constructor(
 
     suspend fun getNoteById(noteID: String) = noteDao.getNoteById(noteID)
 
+    private var currentNotesResponse: Response<List<Note>>? = null
+
+    suspend fun syncNotes() {
+        val locallyDeletedNoteIDs = noteDao.getAllLocallyDeletedNoteIDs()
+        locallyDeletedNoteIDs.forEach { id ->
+            deleteNote(id.deletedNoteID)
+        }
+
+        val unsyncedNotes = noteDao.getAllunsyncedNotes()
+        unsyncedNotes.forEach { note -> insertNote(note) }
+
+        currentNotesResponse = api.getNotes()
+
+        currentNotesResponse?.body()?.let { notes ->
+            noteDao.deleteAllNotes()
+            insertNotes(notes.onEach { note -> note.isSync = true })
+
+        }
+    }
+
+
     fun getAllNotes(): Flow<Resource<List<Note>>> {
         return networkBoundResource(
             query = {
                 noteDao.getAllNotes()
             },
             fetch = {
-                api.getNotes()
+                syncNotes()
+                currentNotesResponse
             },
             saveFetchResult = { response ->
-                response.body()?.let {
-                    insertNotes(it)
+                response?.body()?.let {
+                    insertNotes(it.onEach { note -> note.isSync = true })
                 }
 
             },
@@ -77,6 +100,7 @@ class NoteRepository @Inject constructor(
             }
         )
     }
+
 
     suspend fun login(email: String, password: String) = withContext(Dispatchers.IO) {
         try {
