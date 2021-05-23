@@ -20,7 +20,13 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 import javax.inject.Singleton
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 
 @Module
@@ -45,11 +51,46 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideHttpClient(): OkHttpClient.Builder {
+        val trustAllCertificates: Array<TrustManager> = arrayOf(
+            object : X509TrustManager {
+                override fun checkClientTrusted(
+                    chain: Array<out X509Certificate>?,
+                    authType: String?
+                ) {
+                    /* NO -OP */
+                }
+
+                override fun checkServerTrusted(
+                    chain: Array<out X509Certificate>?,
+                    authType: String?
+                ) {
+                    /* NO -OP */
+                }
+
+                override fun getAcceptedIssuers(): Array<X509Certificate> {
+                    return arrayOf()
+                }
+            }
+        )
+        val sslContext = SSLContext.getInstance("SSL")
+        sslContext.init(null, trustAllCertificates, SecureRandom())
+
+        return OkHttpClient.Builder()
+            .sslSocketFactory(sslContext.socketFactory, trustAllCertificates[0] as X509TrustManager)
+            .hostnameVerifier(HostnameVerifier { _, _ ->
+                true
+            })
+    }
+
+    @Singleton
+    @Provides
     fun provideNoteApi(
+        okHttpClient: OkHttpClient.Builder,
         basicAuthInterceptor: BasicAuthInterceptor
     ): NoteApi {
 
-        val client = OkHttpClient.Builder()
+        val client = okHttpClient
             .addInterceptor(
                 basicAuthInterceptor
             ).addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))

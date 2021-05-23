@@ -3,21 +3,14 @@ package com.bakhus.noteapp.ui.dialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.viewbinding.library.fragment.viewBinding
 import android.widget.EditText
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import com.bakhus.noteapp.R
-import com.bakhus.noteapp.databinding.FragmentNoteDetailBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_note_detail.*
 
 class AddOwnerDialogFragment : DialogFragment() {
-
-    private val binding: FragmentNoteDetailBinding by viewBinding()
-
-  //  private lateinit var clNoteConteiner :ConstraintLayout
 
     private var positiveListener: ((String) -> Unit)? = null
 
@@ -26,7 +19,6 @@ class AddOwnerDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-      //  clNoteConteiner = view?.findViewById<ConstraintLayout>(R.id.clNoteContainer)!!
         val addOwnerAddedText = LayoutInflater.from(requireContext()).inflate(
             R.layout.edit_text_email,
             clNoteContainer,
