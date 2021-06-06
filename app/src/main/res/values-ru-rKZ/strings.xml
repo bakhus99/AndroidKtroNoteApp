@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notes Hub</string>
+    <string name="fill_out">Пожалуйста, заполните все поля</string>
+    <string name="coudnlt_connect_to_server">Не удалось подключиться к серверам. Проверьте подключение к Интернету.</string>
+    <string name="synced">Синхронизировано</string>
+    <string name="not_synced">Не синхронизировано</string>
+    <string name="note_not_found">Заметка не найдена</string>
+    <string name="succes_log_in">Успешный вход в систему</string>
+    <string name="succes_register_acc">Успешно зарегистрированная учетная запись</string>
+    <string name="unknown_error">Произошла неизвестная ошибка</string>
+    <string name="passs_dont_match">Пароли не совпадают</string>
+    <string name="add_owner_note">Добавить владельца в заметку</string>
+    <string name="add_owner_note_message">Введите адрес электронной почты человека, с которым хотите поделиться заметкой. Этот человек сможет читать и редактировать заметку</string>
+    <string name="add_text">Добавлять</string>
+    <string name="cancel_text">Отмена</string>
+    <string name="choose_color">Выберите цвет</string>
+    <string name="markdown_syntax">Синтаксис Markdown</string>
+    <string name="got_it">Понятно</string>
+    <string name="succes_add_owner_to_note">Владелец добавлен в заметку</string>
+    <string name="owner_empty">Поле владельца не может быть пустым</string>
+    <string name="succes_deleted_note">Заметка была успешно удалена</string>
+    <string name="undo">Отмена</string>
+    <string name="server_might_down">Не удалось связаться с сервером, возможно, он не работает</string>
+    <string name="title">Заголовок</string>
+    <string name="note_content">Содержание заметки</string>
+    <string name="login_with_an_existing_account">Войти с существующей учетной записью</string>
+    <string name="password">Пароль</string>
+    <string name="login">Авторизоваться</string>
+    <string name="not_a_member_yet_nswipe_up_to_register">Еще не зарегистрированы? Проведите вверх, чтобы зарегистрироваться!</string>
+    <string name="register_a_new_account">Зарегистрируйте новую учетную запись</string>
+    <string name="confirm_password">Подтвердить Пароль</string>
+    <string name="register">Регистрация</string>
+    <string name="all_notes">Все заметки</string>
+    <string name="log_out">Выйти</string>
+    <string name="add_owner_to_this_note">Добавить владельца к этой заметке</string>
+</resources>

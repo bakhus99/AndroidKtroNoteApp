@@ -19,7 +19,7 @@ import java.util.*
 
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
-    class NoteViewHolder(private val binding: ItemNoteBinding) :
+    class NoteViewHolder(binding: ItemNoteBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     private val diffCallback = object : DiffUtil.ItemCallback<Note>() {
@@ -61,10 +61,11 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
             tvNoteTitle.text = note.title
             if (!note.isSync) {
                 ivIsSync.setImageResource(R.drawable.ic_cross)
-                tvIsSync.text = "Not Synced"
+                tvIsSync.text = context.getString(R.string.not_synced)
             } else {
                 ivIsSync.setImageResource(R.drawable.ic_check)
-                tvIsSync.text = "Synced"
+                tvIsSync.text = context.getString(R.string.synced)
+                    //"Synced"
             }
 
             val dateFormat = SimpleDateFormat("dd.MM.yy, HH:mm", Locale.getDefault())

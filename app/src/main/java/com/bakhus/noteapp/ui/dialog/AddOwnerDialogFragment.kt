@@ -26,20 +26,19 @@ class AddOwnerDialogFragment : DialogFragment() {
         ) as TextInputLayout
         return MaterialAlertDialogBuilder(requireContext())
             .setIcon(R.drawable.ic_add_person)
-            .setTitle("Add owner to note")
+            .setTitle(requireContext().getString(R.string.add_owner_note))
             .setMessage(
-                "Enter an E-mail of a person you want to share the note with." +
-                        "This person will be able to read and edit the note"
+                requireContext().getString(R.string.add_owner_note_message)
             )
             .setView(addOwnerAddedText)
-            .setPositiveButton("Add") { _, _ ->
+            .setPositiveButton(requireContext().getString(R.string.add_text)) { _, _ ->
                 val email =
                     addOwnerAddedText.findViewById<EditText>(R.id.etAddOwnerEmail).text.toString()
                 positiveListener?.let { yes ->
                     yes(email)
                 }
             }
-            .setNegativeButton("Cancel") { dialogInterface, _ ->
+            .setNegativeButton(requireContext().getString(R.string.cancel_text)) { dialogInterface, _ ->
                 dialogInterface.cancel()
             }
             .create()

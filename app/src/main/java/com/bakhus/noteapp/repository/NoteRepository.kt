@@ -1,6 +1,7 @@
 package com.bakhus.noteapp.repository
 
 import android.app.Application
+import com.bakhus.noteapp.R
 import com.bakhus.noteapp.data.local.NoteDao
 import com.bakhus.noteapp.data.local.entites.LocallyDeletedNoteID
 import com.bakhus.noteapp.data.local.entites.Note
@@ -96,7 +97,6 @@ class NoteRepository @Inject constructor(
                 response?.body()?.let {
                     insertNotes(it.onEach { note -> note.isSync = true })
                 }
-
             },
             shouldFetch = {
                 checkForInternetConnection(context)
@@ -113,7 +113,7 @@ class NoteRepository @Inject constructor(
                 Resource.error(response.body()?.message ?: response.message(), null)
             }
         } catch (e: Exception) {
-            Resource.error("Couldn't connect to the servers.Check your internet connection", null)
+            Resource.error(context.getString(R.string.coudnlt_connect_to_server), null)
         }
     }
 
@@ -126,7 +126,7 @@ class NoteRepository @Inject constructor(
                 Resource.error(response.body()?.message ?: response.message(), null)
             }
         } catch (e: Exception) {
-            Resource.error("Couldn't connect to the servers.Check your internet connection", null)
+            Resource.error(context.getString(R.string.coudnlt_connect_to_server), null)
         }
     }
 
@@ -139,7 +139,7 @@ class NoteRepository @Inject constructor(
                 Resource.error(response.body()?.message?: response.message(), null)
             }
         } catch (e: Exception) {
-            Resource.error("Couldn't connect to the servers.Check your internet connection", null)
+            Resource.error(context.getString(R.string.coudnlt_connect_to_server), null)
         }
     }
 

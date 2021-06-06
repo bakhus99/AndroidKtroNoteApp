@@ -3,7 +3,7 @@ package com.bakhus.noteapp.ui.addeditnote
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
+import android.view.*
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
@@ -17,6 +17,8 @@ import com.bakhus.noteapp.data.local.entites.Note
 import com.bakhus.noteapp.databinding.FragmentAddEditNoteBinding
 import com.bakhus.noteapp.ui.BaseFragment
 import com.bakhus.noteapp.ui.dialog.ColorPickerDialogFragment
+import com.bakhus.noteapp.ui.dialog.MarkdownSyntaxDialogFragment
+import com.bakhus.noteapp.utils.Constants
 import com.bakhus.noteapp.utils.Constants.DEFAULT_NOTE_COLOR
 import com.bakhus.noteapp.utils.Constants.FRAGMENT_TAG
 import com.bakhus.noteapp.utils.Constants.KEY_LOGGED_IN_EMAIL
@@ -40,6 +42,15 @@ class AddEditNoteFragment() : BaseFragment(R.layout.fragment_add_edit_note) {
     lateinit var sharedPreferences: SharedPreferences
 
     private val TAG = "AddEditNoteFragment"
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,6 +82,10 @@ class AddEditNoteFragment() : BaseFragment(R.layout.fragment_add_edit_note) {
         }
     }
 
+    private fun showMarkdownSyntax() {
+        MarkdownSyntaxDialogFragment().show(parentFragmentManager, Constants.ADD_OWNER_MARKDOWN_TAG)
+    }
+
     private fun changeViewNoteColor(colorString: String) {
         val drawable = ResourcesCompat.getDrawable(resources, R.drawable.circle_shape, null)
         drawable?.let {
@@ -96,7 +111,7 @@ class AddEditNoteFragment() : BaseFragment(R.layout.fragment_add_edit_note) {
                     Status.ERROR -> {
                         Toast.makeText(
                             requireContext(),
-                            result.message ?: "Note not found",
+                            result.message ?: requireContext().getString(R.string.note_not_found),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -108,27 +123,30 @@ class AddEditNoteFragment() : BaseFragment(R.layout.fragment_add_edit_note) {
         })
     }
 
-//    override fun onPause() {
-//        super.onPause()
-//        saveNote()
-//    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_add_note, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.miMarkdownSyntax -> {
+                showMarkdownSyntax()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     private fun saveNote() {
         val authEmail = sharedPreferences.getString(KEY_LOGGED_IN_EMAIL, NO_EMAIL) ?: NO_EMAIL
-
         val title = binding.etNoteTitle.text.toString()
         val content = binding.etNoteContent.text.toString()
-
-        if (title.isEmpty() || content.isEmpty()) {
-            return
-        }
+        if (title.isEmpty() || content.isEmpty()) { return }
         val date = System.currentTimeMillis()
         val color = currentNoteColor
         val id = currentNote?.id ?: UUID.randomUUID().toString()
         val owners = currentNote?.owners ?: listOf(authEmail)
-
         val note = Note(title, content, date, owners, color, id = id)
-
         viewModel.insertNote(note)
     }
 }

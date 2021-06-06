@@ -19,6 +19,7 @@ import com.bakhus.noteapp.utils.Constants.KEY_PASSWORD
 import com.bakhus.noteapp.utils.Constants.NO_EMAIL
 import com.bakhus.noteapp.utils.Constants.NO_PASSWORD
 import com.bakhus.noteapp.utils.Status
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -96,10 +97,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 when (result.status) {
                     Status.SUCCESS -> {
                         binding.loginProgressBar.visibility = View.GONE
-                        Toast.makeText(
-                            requireContext(),
-                            result.data ?: "Successfully logged in",
-                            Toast.LENGTH_SHORT
+                        Snackbar.make(
+                            requireView(),
+                            result.data ?: requireContext().getString(R.string.succes_log_in), Snackbar.LENGTH_SHORT
                         ).show()
                         sharedPref.edit().putString(KEY_LOGGED_IN_EMAIL, curEmail).apply()
                         sharedPref.edit().putString(KEY_PASSWORD, curPassword).apply()
@@ -108,12 +108,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                     }
                     Status.ERROR -> {
                         binding.loginProgressBar.visibility = View.GONE
-                        Toast.makeText(
-                            requireContext(),
-                            result.message ?: "An unknown error occurred",
-                            Toast.LENGTH_SHORT
+                        Snackbar.make(
+                            requireView(),
+                            result.message ?: requireContext().getString(R.string.unknown_error), Snackbar.LENGTH_SHORT
                         ).show()
-
                     }
                     Status.LOADING -> {
                         binding.loginProgressBar.visibility = View.VISIBLE
@@ -129,17 +127,14 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                         binding.registerProgressBar.visibility = View.GONE
                         Toast.makeText(
                             requireContext(),
-                            result.data ?: "successfully registered account",
+                            result.data ?: requireContext().getString(R.string.succes_register_acc),
                             Toast.LENGTH_SHORT
                         ).show()
-                        //Snackbar.make(requireContext(),(result.data ?: "successfully registered account"),Snackbar.LENGTH_SHORT)
-
                     }
 
                     Status.ERROR -> {
                         binding.registerProgressBar.visibility = View.GONE
-                        Toast.makeText(requireContext(), result.message ?: "An unknown error occurred", Toast.LENGTH_SHORT).show()
-                        //showSnackbar(result.message ?: "An unknown error occurred")
+                        Toast.makeText(requireContext(), result.message ?: requireContext().getString(R.string.unknown_error), Toast.LENGTH_SHORT).show()
                     }
                     Status.LOADING -> {
                         binding.registerProgressBar.visibility = View.VISIBLE
