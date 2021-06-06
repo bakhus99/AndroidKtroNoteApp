@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +14,7 @@
         app:layout_constraintBottom_toTopOf="@id/registerContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <ProgressBar
             android:id="@+id/loginProgressBar"
@@ -34,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:alpha="1"
-        android:text="Login with an existing Account"
+        android:text="@string/login_with_an_existing_account"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="26sp"
@@ -47,6 +45,12 @@
         android:id="@+id/tilLoginEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/loginContainer"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toStartOf="@id/ivArrowUpRight"
@@ -58,7 +62,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="E-Mail"
-            android:textColorHint="@android:color/tertiary_text_light"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/white"
+            android:textCursorDrawable="@color/white"
             android:inputType="textEmailAddress"
             android:padding="16dp" />
 
@@ -69,6 +75,12 @@
         android:id="@+id/tilLoginPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toStartOf="@id/ivArrowUpRight"
         app:layout_constraintStart_toEndOf="@id/ivArrowUpLeft"
         app:layout_constraintTop_toBottomOf="@id/tilLoginEmail">
@@ -78,8 +90,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Password"
-            android:textColorHint="@android:color/tertiary_text_light"
+            android:hint="@string/password"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/white"
+            android:textCursorDrawable="@color/white"
             android:inputType="textPassword"
             android:padding="16dp" />
 
@@ -91,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Login"
+        android:text="@string/login"
         app:layout_constraintEnd_toEndOf="@id/tilLoginPassword"
         app:layout_constraintTop_toBottomOf="@id/tilLoginPassword" />
 
@@ -128,7 +142,7 @@
         android:id="@+id/tvRegisterText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Not a member yet?\nSwipe up to register!"
+        android:text="@string/not_a_member_yet_nswipe_up_to_register"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="16sp"
@@ -151,7 +165,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:alpha="0"
-        android:text="Register a new Account"
+        android:text="@string/register_a_new_account"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="26sp"
@@ -162,6 +176,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:alpha="0"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRegisterTitle">
@@ -172,10 +192,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="E-Mail"
-            android:textColorHint="@android:color/tertiary_text_light"
-            android:inputType="textEmailAddress"
+            android:backgroundTint="@color/white"
             android:padding="16dp"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/white"
+            android:inputType="textEmailAddress"
+            android:textCursorDrawable="@color/white" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -185,6 +206,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:alpha="0"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRegisterTitle">
@@ -194,11 +221,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Password"
-            android:textColorHint="@android:color/tertiary_text_light"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:padding="16dp"
-            android:textColor="@android:color/white" />
+            android:backgroundTint="@color/white"
+            android:textColor="@color/white"
+            android:textCursorDrawable="@color/white" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -209,19 +237,26 @@
         android:layout_height="wrap_content"
         android:alpha="0"
         app:layout_constraintStart_toStartOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:textColorHint="@color/white"
+        app:boxStrokeColor="@color/white"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/white"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRegisterTitle" >
+        app:layout_constraintTop_toBottomOf="@id/tvRegisterTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etRegisterPasswordConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Confirm Password"
-            android:textColorHint="@android:color/tertiary_text_light"
-            android:inputType="textPassword"
+            android:backgroundTint="@color/white"
             android:padding="16dp"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/white"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:textCursorDrawable="@color/white" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -230,7 +265,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Register"
+        android:text="@string/register"
         android:textColorHint="@android:color/tertiary_text_light"
         android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"

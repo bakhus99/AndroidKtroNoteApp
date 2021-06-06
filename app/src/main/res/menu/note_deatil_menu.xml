@@ -5,7 +5,12 @@
     <item
         android:id="@+id/miAddOwner"
         android:icon="@drawable/ic_add_person"
-        android:title="Add owner to this note"
+        android:title="@string/add_owner_to_this_note"
         app:showAsAction="always" />
+
+    <item android:id="@+id/miMarkdownSyntax"
+        android:icon="@drawable/ic_help"
+        android:title="@string/markdown_syntax"
+        app:showAsAction="ifRoom"/>
 
 </menu>

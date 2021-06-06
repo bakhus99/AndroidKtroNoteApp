@@ -3,6 +3,7 @@ package com.bakhus.noteapp.ui.dialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import com.bakhus.noteapp.R
 import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
@@ -17,7 +18,7 @@ class ColorPickerDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return ColorPickerDialog.Builder(requireContext())
-            .setTitle("Choose a color")
+            .setTitle(requireContext().getString(R.string.choose_color))
             .setPositiveButton("Ok", object : ColorEnvelopeListener {
                 override fun onColorSelected(envelope: ColorEnvelope?, fromUser: Boolean) {
                     positiveListener?.let { yes ->
@@ -26,7 +27,7 @@ class ColorPickerDialogFragment : DialogFragment() {
                         }
                     }
                 }
-            }).setNegativeButton("cancel") { dialingInterface, _ ->
+            }).setNegativeButton(requireContext().getString(R.string.cancel_text)) { dialingInterface, _ ->
                 dialingInterface.cancel()
             }
             .setBottomSpace(12)

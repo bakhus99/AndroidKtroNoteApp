@@ -137,9 +137,9 @@ class NotesFragment() : BaseFragment(R.layout.fragment_notes) {
             val position = viewHolder.layoutPosition
             val note = noteAdapter.notes[position]
             viewModel.deleteNote(note.id)
-            Snackbar.make(requireView(), "Note was succesfully deleted", Snackbar.LENGTH_LONG)
+            Snackbar.make(requireView(), requireContext().getString(R.string.succes_deleted_note), Snackbar.LENGTH_LONG)
                 .apply {
-                    setAction("Undo") {
+                    setAction(requireContext().getString(R.string.undo)) {
                         viewModel.insertNote(note)
                         viewModel.deleteLocallyDeletedNoteID(note.id)
                     }

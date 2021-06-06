@@ -1,3 +1,37 @@
 <resources>
-    <string name="app_name">NoteApp</string>
+    <string name="app_name">Notes Hub</string>
+    <string name="fill_out">Please fill out all the fields</string>
+    <string name="coudnlt_connect_to_server">Could not connect to the servers.Check your internet connection</string>
+    <string name="synced">Synced</string>
+    <string name="not_synced">Not Synced</string>
+    <string name="note_not_found">Note not found</string>
+    <string name="succes_log_in">Successfully logged in"</string>
+    <string name="succes_register_acc">Successfully registered account"</string>
+    <string name="unknown_error">An unknown error occurred"</string>
+    <string name="passs_dont_match">Passwords don\'t match"</string>
+    <string name="add_owner_note">Add owner to note"</string>
+    <string name="add_owner_note_message">Enter an E-mail of a person you want to share the note with. +
+                        This person will be able to read and edit the note</string>
+    <string name="add_text">Add</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="choose_color">Choose a color</string>
+    <string name="markdown_syntax">Markdown syntax</string>
+    <string name="got_it">Got it</string>
+    <string name="succes_add_owner_to_note">Successfully added owner to note</string>
+    <string name="owner_empty">The owner can\'t be empty</string>
+    <string name="succes_deleted_note">Note was successfully deleted</string>
+    <string name="undo">Undo</string>
+    <string name="server_might_down">Coudn\'t reach server it might be down</string>
+    <string name="title">Title</string>
+    <string name="note_content">Note Content</string>
+    <string name="login_with_an_existing_account">Login with an existing Account</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="not_a_member_yet_nswipe_up_to_register">Not a member yet? Swipe up to register!</string>
+    <string name="register_a_new_account">Register a new Account</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="all_notes">All Notes</string>
+    <string name="log_out">Log out</string>
+    <string name="add_owner_to_this_note">Add owner to this note</string>
 </resources>

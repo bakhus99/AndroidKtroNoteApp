@@ -12,7 +12,9 @@ import com.bakhus.noteapp.data.local.entites.Note
 import com.bakhus.noteapp.databinding.FragmentNoteDetailBinding
 import com.bakhus.noteapp.ui.BaseFragment
 import com.bakhus.noteapp.ui.dialog.AddOwnerDialogFragment
+import com.bakhus.noteapp.ui.dialog.MarkdownSyntaxDialogFragment
 import com.bakhus.noteapp.utils.Constants.ADD_OWNER_DIALOG_TAG
+import com.bakhus.noteapp.utils.Constants.ADD_OWNER_MARKDOWN_TAG
 import com.bakhus.noteapp.utils.Status
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,6 +64,10 @@ class NoteDetailFragment() : BaseFragment(R.layout.fragment_note_detail) {
         }.show(parentFragmentManager, ADD_OWNER_DIALOG_TAG)
     }
 
+    private fun showMarkdownSyntax() {
+        MarkdownSyntaxDialogFragment().show(parentFragmentManager, ADD_OWNER_MARKDOWN_TAG)
+    }
+
     private fun addOwnerToCurrentNote(email: String) {
         currentNote?.let { note ->
             viewModel.addOwnerToNote(email, noteID = note.id)
@@ -83,7 +89,7 @@ class NoteDetailFragment() : BaseFragment(R.layout.fragment_note_detail) {
                         binding.addOwnerProgressBar.visibility = View.GONE
                         Snackbar.make(
                             requireView(),
-                            result.data ?: "Successfully added owner to note",
+                            result.data ?: requireContext().getString(R.string.succes_add_owner_to_note),
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
@@ -91,7 +97,7 @@ class NoteDetailFragment() : BaseFragment(R.layout.fragment_note_detail) {
                         binding.addOwnerProgressBar.visibility = View.GONE
                         Snackbar.make(
                             requireView(),
-                            result.message ?: "An unkown error occured",
+                            result.message ?: requireContext().getString(R.string.unknown_error),
                             Snackbar.LENGTH_SHORT
                         ).show()
 
@@ -109,7 +115,7 @@ class NoteDetailFragment() : BaseFragment(R.layout.fragment_note_detail) {
                 binding.tvNoteTitle.text = note.title
                 setMarkdownText(note.content)
                 currentNote = note
-            } ?: Snackbar.make(requireView(), "Note not found", Snackbar.LENGTH_SHORT).show()
+            } ?: Snackbar.make(requireView(), requireContext().getString(R.string.note_not_found), Snackbar.LENGTH_SHORT).show()
         })
     }
 
@@ -123,9 +129,11 @@ class NoteDetailFragment() : BaseFragment(R.layout.fragment_note_detail) {
             R.id.miAddOwner -> {
                 showAddOwnerDialog()
             }
+            R.id.miMarkdownSyntax -> {
+                showMarkdownSyntax()
+            }
         }
         return super.onOptionsItemSelected(item)
-
     }
 
 }

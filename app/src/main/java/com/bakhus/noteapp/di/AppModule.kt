@@ -28,7 +28,6 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -89,13 +88,10 @@ object AppModule {
         okHttpClient: OkHttpClient.Builder,
         basicAuthInterceptor: BasicAuthInterceptor
     ): NoteApi {
-
         val client = okHttpClient
-            .addInterceptor(
-                basicAuthInterceptor
-            ).addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(basicAuthInterceptor)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
-
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
